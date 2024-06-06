@@ -29,11 +29,11 @@ export class User {
 
   @ManyToMany(() => Category)
   @JoinTable({ name: 'users_categories' })
-  categorySubscriptions: Category[];
+  categorySubscriptions?: Category[];
 
   @ManyToMany(() => Channel)
   @JoinTable({ name: 'users_channels' })
-  notificationChannels: Channel[];
+  notificationChannels?: Channel[];
 
   @CreateDateColumn()
   createdAt: Date;

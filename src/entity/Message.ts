@@ -1,22 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 
 import { Category } from "./Category.js";
 
-@Entity({ name: 'messages' })
+@Entity({ name: "messages" })
 export class Message {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Column("text")
   content: string;
 
-  @ManyToMany(() => Category)
-  @JoinTable({ name: 'messages_categories' })
-  categories: Category[]
+  @ManyToOne(() => Category, (category) => category.messages)
+  @JoinColumn({ name: "categoryId" })
+  category: Category;
+
+  @Column({ type: "varchar" })
+  categoryId: number;
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;  
+  updatedAt: Date;
 }

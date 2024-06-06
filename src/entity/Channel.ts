@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity({ name: 'channels' })
+@Entity({ name: "channels" })
 export class Channel {
   @PrimaryGeneratedColumn("uuid")
   id: number;
@@ -15,7 +15,7 @@ export class Channel {
   name: string;
 
   @Column({ length: 45, type: "varchar" })
-  tag: string;  
+  tag: string;
 
   @CreateDateColumn()
   createdAt: Date;

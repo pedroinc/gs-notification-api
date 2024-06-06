@@ -60,78 +60,44 @@ AppDataSource.initialize()
     console.log("Channels: ", insertedChannels);
 
     // mock users
-
     const userRepository = AppDataSource.getRepository(User);
-
-    const mockedPersonA = {
-      name: "Pedro",
-      email: "pedro@gmail.com",
-      phoneNumber: faker.phone.number(),
-    };
-    const mockedPersonB = {
-      name: "Ana",
-      email: "ana@gmail.com",
-      phoneNumber: faker.phone.number(),
-    };
-    const mockedPersonC = {
-      name: "Lucas",
-      email: "lucas@gmail.com",
-      phoneNumber: faker.phone.number(),
-    };
-    const mockedPersonD = {
-      name: "Laura",
-      email: "laura@gmail.com",
-      phoneNumber: faker.phone.number(),
-    };
 
     await userRepository.save([
       {
-        name: mockedPersonA.name,
-        email: mockedPersonA.email,
-        phoneNumber: mockedPersonA.phoneNumber,
-        categorySubscriptions: [sports, finance, movies],
-        notificationChannels: [smsChannel, emailChannel, pushChannel]
+        name: "Pedro",
+        email: "pedro@gmail.com",
+        phoneNumber: faker.phone.number(),
+        categorySubscriptions: [sports, movies],
+        notificationChannels: [emailChannel, pushChannel],
       },
       {
-        name: mockedPersonB.name,
-        email: mockedPersonB.email,
-        phoneNumber: mockedPersonB.phoneNumber,
-        categorySubscriptions: [sports, finance, movies],
-        notificationChannels: [smsChannel, emailChannel, pushChannel]
+        name: "Ana",
+        email: "ana@gmail.com",
+        phoneNumber: faker.phone.number(),
+        categorySubscriptions: [movies],
+        notificationChannels: [pushChannel],
       },
       {
-        name: mockedPersonC.name,
-        email: mockedPersonC.email,
-        phoneNumber: mockedPersonC.phoneNumber,
-        categorySubscriptions: [sports, finance, movies],
-        notificationChannels: [smsChannel, emailChannel, pushChannel]
+        name: "Lucas",
+        email: "lucas@gmail.com",
+        phoneNumber: faker.phone.number(),
+        categorySubscriptions: [sports],
+        notificationChannels: [emailChannel, pushChannel],
       },
       {
-        name: mockedPersonD.name,
-        email: mockedPersonD.email,
-        phoneNumber: mockedPersonD.phoneNumber,
-        categorySubscriptions: [sports, finance, movies],
+        name: "Laura",
+        email: "laura@gmail.com",
+        phoneNumber: faker.phone.number(),
+        categorySubscriptions: [finance],
+        notificationChannels: [emailChannel],
+      },
+      {
+        name: "Nina",
+        email: "nina@gmail.com",
+        phoneNumber: faker.phone.number(),
+        categorySubscriptions: [sports],
+        notificationChannels: [smsChannel],
       },
     ]);
-
-    // await userRepository.save()
-
-    // const firstName = faker.person.firstName();
-    // const lastName = faker.person.lastName();
-    // const name = `${firstName} ${lastName}`;
-    // const email = faker.internet.email({
-    //   firstName,
-    //   lastName,
-    // });
-    // const phoneNumber = faker.phone.number();
-
-    // await userRepository.insert([
-    //   {
-    //     name,
-    //     email,
-    //     phoneNumber,
-    //     categorySubscriptions: [sports, finance, movies],
-    //   },
-    // ]);
   })
   .catch((error) => console.log(error));

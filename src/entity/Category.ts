@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Message } from "./Message.js";
 
 @Entity({ name: 'categories' })
 export class Category {
@@ -7,6 +8,9 @@ export class Category {
 
   @Column({ length: 255, type: "varchar" })
   name: string;
+
+  @OneToMany(() => Message, (message) => message.category)
+  messages?: Message[];
 
   @CreateDateColumn()
   createdAt: Date;

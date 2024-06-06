@@ -6,6 +6,11 @@ import { Request, Response } from "express";
 import express from "express";
 
 import { AppDataSource } from "./database/data-source.js";
+import { logger } from "./utils/logger.js";
+import { Message } from "./entity/Message.js";
+import { Category } from "./entity/Category.js";
+import { User } from "./entity/User.js";
+import { In } from "typeorm";
 
 const app = express();
 
@@ -23,26 +28,36 @@ const config: Config = {
 
 app.use(express.json());
 
-// app.get("/", async (req: Request, res: Response) => {
-//   try {
-//     console.log(`server running on port ${config.port}`);
-//     return res.json({ message: "Notification App" });
-//   } catch (error) {
-//     return res.json({ error });
-//   }
-// });
-
 app.post("/message", async (req: Request, res: Response) => {
   console.log("message POST");
 
   try {
-    const { categoryId, message } = req.body;
+    const { categoryId, content } = req.body;
 
-    console.log({ categoryId, message });
+    const categoryRepository = AppDataSource.getRepository(Category);
+    let category = categoryRepository.findOneBy({ id: categoryId });
+
+    if(!category) throw Error(`Invalid category id: ${categoryId}`);
+
+    const messageRepository = AppDataSource.getRepository(Message);
+    const message = await messageRepository.save({ categoryId, content });
+
+    logger.info('message saved');
+    logger.info(message);
+
+    // TODO query users from category
+    // TODO send notification (using interface)
+    // TODO log in a file
+    // TODO encapsulate domain logic inside a send notification generic service
+
+    const userRepository = AppDataSource.getRepository(User);
+    const usersFromCategory = userRepository.find({ where: { categorySubscriptions: In([categoryId]) } });
+    console.log('usersFromCategory', usersFromCategory);
+
     // const result = await sendMessageService({ categoryId, message });
-    return res.json({ categoryId, message });
+    return res.json({ categoryId, content });
   } catch (error) {
-    console.error("error", error);
+    logger.error(error);
     return res.status(400).json({ message: "error while sending a message" });
   }
 });
@@ -59,23 +74,14 @@ app.post("/message", async (req: Request, res: Response) => {
 // console.log(app.routes());
 
 app.listen(config.port, config.hostname, () => {
-  console.log(`server running on port ${config.port}`);
+  logger.info(`server running on port ${config.port}`);
 
-// to initialize the initial connection with the database, register all entities
-// and "synchronize" database schema, call "initialize()" method of a newly created database
-// once in your application bootstrap
-AppDataSource.initialize()
-  .then(() => {
-    // here you can start to work with your database
-
-    // const categoryRepository = queryRunner.connection.getRepository(Category);
-
-    // await categoryRepository.insert([
-    //   { name: "Sports" },
-    //   { name: "Finance" },
-    //   { name: "Movies" },
-    // ]);
-  })
-  .catch((error) => console.log(error));
-
+  // to initialize the initial connection with the database, register all entities
+  // and "synchronize" database schema, call "initialize()" method of a newly created database
+  // once in your application bootstrap
+  AppDataSource.initialize()
+    .then(() => {
+      logger.info("db initialized");
+    })
+    .catch((error) => console.log(error));
 });
