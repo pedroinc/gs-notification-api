@@ -1,8 +1,11 @@
 import "dotenv/config";
+import "reflect-metadata";
 
 import { Request, Response } from "express";
 
 import express from "express";
+
+import { AppDataSource } from "./database/data-source.js";
 
 const app = express();
 
@@ -30,8 +33,8 @@ app.use(express.json());
 // });
 
 app.post("/message", async (req: Request, res: Response) => {
-  console.log('message POST');
-  
+  console.log("message POST");
+
   try {
     const { categoryId, message } = req.body;
 
@@ -39,8 +42,8 @@ app.post("/message", async (req: Request, res: Response) => {
     // const result = await sendMessageService({ categoryId, message });
     return res.json({ categoryId, message });
   } catch (error) {
-    console.error('error', error);
-    return res.status(400).json({ message: 'error while sending a message' });
+    console.error("error", error);
+    return res.status(400).json({ message: "error while sending a message" });
   }
 });
 
@@ -57,4 +60,22 @@ app.post("/message", async (req: Request, res: Response) => {
 
 app.listen(config.port, config.hostname, () => {
   console.log(`server running on port ${config.port}`);
+
+// to initialize the initial connection with the database, register all entities
+// and "synchronize" database schema, call "initialize()" method of a newly created database
+// once in your application bootstrap
+AppDataSource.initialize()
+  .then(() => {
+    // here you can start to work with your database
+
+    // const categoryRepository = queryRunner.connection.getRepository(Category);
+
+    // await categoryRepository.insert([
+    //   { name: "Sports" },
+    //   { name: "Finance" },
+    //   { name: "Movies" },
+    // ]);
+  })
+  .catch((error) => console.log(error));
+
 });
