@@ -27,12 +27,12 @@ export class User {
   @Column({ length: 45, type:"varchar" })
   phoneNumber: string;
 
-  @ManyToMany(() => Category)
+  @ManyToMany(() => Category, { eager: true })
   @JoinTable({ name: 'users_categories' })
   categorySubscriptions?: Category[];
 
-  @ManyToMany(() => Channel)
-  @JoinTable({ name: 'users_channels' })
+  @ManyToMany(() => Channel, { eager: true })
+  @JoinTable({ name: 'users_channels',  })
   notificationChannels?: Channel[];
 
   @CreateDateColumn()

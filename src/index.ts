@@ -35,15 +35,15 @@ app.post("/message", async (req: Request, res: Response) => {
     const { categoryId, content } = req.body;
 
     const categoryRepository = AppDataSource.getRepository(Category);
-    let category = categoryRepository.findOneBy({ id: categoryId });
+    const category = await categoryRepository.findOneBy({ id: categoryId });
 
-    if(!category) throw Error(`Invalid category id: ${categoryId}`);
+    if (!category) throw Error(`Invalid category id: ${categoryId}`);
 
-    const messageRepository = AppDataSource.getRepository(Message);
-    const message = await messageRepository.save({ categoryId, content });
+    // const messageRepository = AppDataSource.getRepository(Message);
+    // const message = await messageRepository.save({ categoryId, content });
 
-    logger.info('message saved');
-    logger.info(message);
+    // logger.info('message saved');
+    // logger.info(message);
 
     // TODO query users from category
     // TODO send notification (using interface)
@@ -51,11 +51,27 @@ app.post("/message", async (req: Request, res: Response) => {
     // TODO encapsulate domain logic inside a send notification generic service
 
     const userRepository = AppDataSource.getRepository(User);
-    const usersFromCategory = userRepository.find({ where: { categorySubscriptions: In([categoryId]) } });
-    console.log('usersFromCategory', usersFromCategory);
+
+    const usersFromCategory = await userRepository.find({
+      relations: { categorySubscriptions: true },
+      where: {
+        categorySubscriptions: {
+          id: categoryId,
+        },
+      },
+    });
+    // const users = await userRepository.find();
+    // categoryRepository.findBy({ id: categoryId })
+
+    console.log("usersFromCategory", usersFromCategory);
+
+    return res.status(200).json(usersFromCategory);
+
+    // const usersFromCategory = userRepository.find({ where: { categorySubscriptions: In([categoryId]) } });
+    // console.log('usersFromCategory', usersFromCategory);
 
     // const result = await sendMessageService({ categoryId, message });
-    return res.json({ categoryId, content });
+    // return res.json({ categoryId, content });
   } catch (error) {
     logger.error(error);
     return res.status(400).json({ message: "error while sending a message" });
