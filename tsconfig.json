@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
+    "noImplicitAny": false
   },
   "include": ["src/**/*"], 
 }

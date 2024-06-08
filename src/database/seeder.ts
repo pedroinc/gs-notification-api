@@ -1,19 +1,10 @@
-// import { Photo } from "./entity/Photo"
-// import { AppDataSource } from "
-
-import { NotificationType } from "../config/index.js";
+import { Categories, NotificationType } from "../config/index.js";
 import { Category } from "../entity/Category.js";
 import { Channel } from "../entity/Channel.js";
 import { User } from "../entity/User.js";
 import { AppDataSource } from "./data-source.js";
 
 import { faker } from "@faker-js/faker";
-
-const Categories = {
-  SPORTS: "Sports",
-  FINANCE: "Finance",
-  MOVIES: "Movies",
-};
 
 AppDataSource.initialize()
   .then(async () => {

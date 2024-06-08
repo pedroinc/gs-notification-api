@@ -4,3 +4,9 @@ export const NotificationType = {
     EMAIL: 'email',
     PUSH: 'push',
 }
+
+export const Categories = {
+  SPORTS: "Sports",
+  FINANCE: "Finance",
+  MOVIES: "Movies",
+};
