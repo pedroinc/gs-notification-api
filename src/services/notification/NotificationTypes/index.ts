@@ -5,7 +5,7 @@ import { Push } from "./Push.js";
 import { Sms } from "./Sms.js";
 
 export interface INotification {
-  send(user: User): void;
+  send(user: User, content: string): void;
 }
 
 export const channelMapper = {

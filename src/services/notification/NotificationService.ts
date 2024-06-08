@@ -13,8 +13,6 @@ interface RequestBody {
 
 export class SendNotificationService {
 
-  const 
-
   async execute({ categoryId, content }: RequestBody) {
     if (!categoryId)
       throw Error(`The category id was not provided: ${categoryId}`);
@@ -35,7 +33,7 @@ export class SendNotificationService {
         // LoggerWrapper.info(logMessage);
 
         const notificationChannel = channelMapper[channel.tag];
-        notificationChannel.send(user);
+        notificationChannel.send(user, content);
 
         // if(channel.tag === 'push') {
           

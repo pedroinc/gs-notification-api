@@ -9,7 +9,7 @@ export class Email implements INotification {
   constructor(type: string) {
     this.type = type;
   }
-  send(user: User): void {
+  send(user: User, content: string): void {
     //TODO business logic to send email notifications
     const { name } = user;
     LoggerWrapper.info(`${this.type} notification to ${name}`, true);
