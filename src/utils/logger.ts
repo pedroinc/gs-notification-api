@@ -1,6 +1,10 @@
 import { format, createLogger, transports } from "winston";
+const { combine, timestamp, printf, prettyPrint } = format;
 
-const { combine, timestamp, prettyPrint } = format;
+//Using the printf format.
+const customFormat = printf(({ level, message, timestamp }) => {
+  return `[${timestamp}] ${level}: ${JSON.stringify(message)}`;
+});
 
 const logger = createLogger({
   level: "info",
@@ -15,15 +19,10 @@ const logger = createLogger({
 
 const notificationLogger = createLogger({
   level: "info",
-  format: combine(
-    timestamp({
-      format: "MMM-DD-YYYY HH:mm:ss",
-    }),
-    prettyPrint()
-  ),
+  format: combine(timestamp(), customFormat),
   transports: [
     new transports.File({
-      filename: "src/logs/file.log",
+      filename: "logs/file.log",
     }),
   ],
 });
