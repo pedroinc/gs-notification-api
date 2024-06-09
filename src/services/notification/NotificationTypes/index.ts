@@ -1,11 +1,20 @@
 import { NotificationType } from "../../../config/index.js";
-import { User } from "../../../entity/User.js";
 import { Email } from "./Email.js";
 import { Push } from "./Push.js";
 import { Sms } from "./Sms.js";
 
 export interface INotification {
-  send(user: User, content: string): void;
+  send(notification: INotificationInfo): void;
+}
+
+export interface INotificationInfo {
+  type: string;
+  user: {
+    id: string | number;
+    name: string;
+  };
+  category: string;
+  content: string;
 }
 
 export const channelMapper = {

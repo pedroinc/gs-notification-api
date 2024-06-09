@@ -1,18 +1,16 @@
 import { format, createLogger, transports } from "winston";
 const { combine, timestamp, printf, prettyPrint } = format;
 
-//Using the printf format.
 const customFormat = printf(({ level, message, timestamp }) => {
-  return `[${timestamp}] ${level}: ${JSON.stringify(message)}`;
+  const mObj = { datetime: `${timestamp}`, level, ...message };
+  return `${JSON.stringify(mObj)}`;
 });
 
 const logger = createLogger({
   level: "info",
   format: combine(
-    timestamp({
-      format: "MMM-DD-YYYY HH:mm:ss",
-    }),
-    prettyPrint({ colorize: true })
+    timestamp(),
+    prettyPrint({ colorize: true }),
   ),
   transports: [new transports.Console()],
 });

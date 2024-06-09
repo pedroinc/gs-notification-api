@@ -18,11 +18,6 @@ const config: Config = {
 };
 
 app.use(express.json());
-
-appRouter.get('/', (req, res) => {
-  return res.send({ message: 'Notification API' });
-});
-
 app.use(appRouter);
 
 app.listen(config.port, config.hostname, () => {

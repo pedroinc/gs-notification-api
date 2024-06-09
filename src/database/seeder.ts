@@ -48,9 +48,6 @@ AppDataSource.initialize()
       (item) => item.tag === NotificationType.PUSH
     ) as Channel;
 
-    console.log("Channels: ", insertedChannels);
-
-    // mock users
     const userRepository = AppDataSource.getRepository(User);
 
     await userRepository.save([
