@@ -1,13 +1,12 @@
 import { CategoryRepository } from "../../repositories/CategoryRepository.js";
 import { UserRepository } from "../../repositories/UserRepository.js";
-import { LoggerWrapper } from "../../utils/logger.js";
 import { INotificationInfo, channelMapper } from "./NotificationTypes/index.js";
 
 const categoryRepository = new CategoryRepository();
 const userRepository = new UserRepository();
 
 interface RequestBody {
-  categoryId: string;
+  categoryId: number;
   content: string;
 }
 

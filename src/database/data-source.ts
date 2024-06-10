@@ -4,6 +4,6 @@ export const AppDataSource = new DataSource({
   type: "sqlite",
   database: "db.sqlite",
   entities: ["src/entity/*.ts"],
-  logging: true,
+  // logging: true,
   synchronize: true,
 });

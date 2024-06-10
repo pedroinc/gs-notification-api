@@ -1,4 +1,3 @@
-import { User } from "../../../entity/User.js";
 import { LoggerWrapper } from "../../../utils/logger.js";
 import { INotification, INotificationInfo } from "./index.js";
 

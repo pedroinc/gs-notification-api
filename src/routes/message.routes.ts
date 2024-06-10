@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 import express from "express";
 import { LoggerWrapper } from "../utils/logger.js";
@@ -7,14 +7,14 @@ import { ErrorMessages, HTTP_STATUS } from "../config/index.js";
 
 const sendNotificationService = new SendNotificationService();
 
-export const messagesRouter = express.Router();
+export const messageRouter = express.Router();
 
 interface RequestBody {
-  categoryId: string;
+  categoryId: number;
   content: string;
 }
 
-messagesRouter.post("/", async (req: Request, res: Response) => {
+messageRouter.post("/", async (req: Request, res: Response) => {
   try {
     const { categoryId, content }: RequestBody = req.body;
 

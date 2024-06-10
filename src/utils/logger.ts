@@ -8,21 +8,22 @@ const customFormat = printf(({ level, message, timestamp }) => {
 
 const logger = createLogger({
   level: "info",
-  format: combine(
-    timestamp(),
-    prettyPrint({ colorize: true }),
-  ),
+  format: combine(timestamp(), prettyPrint({ colorize: true })),
   transports: [new transports.Console()],
 });
+
+export const logPath = process.env.LOG_PATH;
+
+const transportInstance = new transports.File({
+  filename: logPath,
+});
+
+console.log("logPath", logPath);
 
 const notificationLogger = createLogger({
   level: "info",
   format: combine(timestamp(), customFormat),
-  transports: [
-    new transports.File({
-      filename: "logs/file.log",
-    }),
-  ],
+  transports: [transportInstance],
 });
 
 export class LoggerWrapper {
